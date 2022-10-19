@@ -1,68 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:tatadigitaltest/homepage.dart';
+import 'package:tatadigitaltest/themedata.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyHomePage());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class MyHomePage extends StatelessWidget {
+   MyHomePage({Key? key}) : super(key: key);
+  final themedata = Themedata();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+    return Observer(builder: (context){
+      return MaterialApp(
+        title: "My HomePage",
+        theme: context.watch().themedata.currentThemeData,
+        home: HomePage(),
+      );
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final subtree = Text("Hello World");
-
-
-    /*we can also prevent rebuilding of widget by using packages like provider
-
-    * Consumer
-    * Selector
-
-    * */
-
-    return Column(
-      children: [
-        // Stop Widget rebuilding using const keyword.
-        const DecoratedBox(
-          decoration: BoxDecoration(),
-          child: Text("Hello World"),
-        ),
-
-        //using final keyword to prevent widget rebuild
-        subtree
-
-
-      ],
-    );
   }
 }
